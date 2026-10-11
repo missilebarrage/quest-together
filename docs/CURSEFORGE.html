@@ -1,0 +1,71 @@
+<!-- The CurseForge project description. Paste into the description editor's source (HTML) view. -->
+<p><strong>Quest Together</strong> makes questing in a party easier. It shares the quests you pick up with your party, posts in party chat when you finish an objective, and shows everyone's progress on the quests around you in a small panel, so you always know who still needs those last two boar tusks.</p>
+<p>Made for <strong>World of Warcraft: Forever</strong>. There's nothing to set up: install it, group up and quest. It works best when everyone in the party has it.</p>
+<h2>Commands</h2>
+<table>
+<thead><tr><th>Command</th><th>What it does</th></tr></thead>
+<tbody>
+<tr><td><code>/qt</code></td><td>Show what's switched on, and the commands</td></tr>
+<tr><td><code>/qt options</code></td><td>Open the options</td></tr>
+<tr><td><code>/qt panel</code></td><td>Turn the party progress panel on or off</td></tr>
+<tr><td><code>/qt preview</code></td><td>Show the panel with example progress for 30 seconds, to place it</td></tr>
+<tr><td><code>/qt share</code></td><td>Share every quest someone in your party is missing</td></tr>
+<tr><td><code>/qt share stop</code></td><td>Stop sharing</td></tr>
+<tr><td><code>/qt debug</code></td><td>Diagnostics for bug reports</td></tr>
+</tbody></table>
+<p><code>/questtogether</code> works as well as <code>/qt</code>. On the panel: Shift-drag it to move it, right-click it for its menu.</p>
+<h2>Features</h2>
+<ul>
+<li><strong>Shares your quests</strong> &mdash; every quest you accept is shared with your party a moment later. Anyone who already has it is skipped, and quests are shared one at a time, so nobody gets a pile of quest windows at once. A quest a party member shared with you isn't shared back, and when two of you take the same quest from a quest giver, it's only shared once.</li>
+<li><strong>Catch up late joiners</strong> &mdash; <em>Share quests the party is missing</em> (<code>/qt share</code>, the panel's menu or the options) offers a newcomer every quest in your log they don't have yet, one after another, and tells you how many they took.</li>
+<li><strong>Accept shared quests automatically</strong> (optional, off by default) &mdash; quests your party members share with you are accepted without the quest window.</li>
+<li><strong>Party chat announcements</strong>, worded like Questie's, with a star icon in front:
+<ul>
+<li><em>6/6 Boar slain for [The Boar Hunt]!</em> when you finish an objective</li>
+<li><em>Quest Completed: [The Boar Hunt]</em> when the quest is ready to turn in</li>
+</ul>
+Quest names are clickable links. Each objective is announced once: logging in with objectives already done, or dropping below a count and getting back to it, posts nothing.</li>
+<li><strong>Party progress panel</strong> &mdash; when you walk into a quest's area (the shape the map draws for it), a small panel shows how far everyone is on that quest:
+<table>
+<thead><tr><th>The Boar Hunt</th><th>You</th><th>Thrall</th><th>Jaina</th></tr></thead>
+<tbody>
+<tr><td>Boar Tusk</td><td>&#10003;</td><td>4/6</td><td>2/6</td></tr>
+<tr><td>Bear Meat</td><td>&#10003;</td><td>&#10003;</td><td>3/10</td></tr>
+</tbody></table>
+<p><em>Not on quest: Anduin</em></p>
+Finished objectives get a green check and names are in class colours. The panel only shows while you're in a party and there's progress to show. A quest you finish stays on it until the rest of the party has finished it too, or you leave the zone. Instead of the quests in the area you're in, it can also show every quest in the current zone, or every quest you share with your party.</li>
+<li><strong>Fits your UI</strong> &mdash; a flat, minimal look inspired by EllesmereUI. When EllesmereUI is installed, Quest Together follows its accent colour and font.</li>
+<li><strong>Lightweight</strong> &mdash; it reacts to the game's quest events, does no work while you're solo beyond keeping track of your own quests, and sends party members only small updates.</li>
+</ul>
+<h2>Where the panel's numbers come from</h2>
+<ul>
+<li><strong>Party members with Quest Together</strong> send each other their quest progress, so you see their exact counts, updated within about a second.</li>
+<li><strong>Party members without it</strong> are filled in from what the game itself tells you: their progress when the game shares it, otherwise whether they're on the quest (shown as <code>?</code>) or not. When the game can't tell, they're listed under <em>No info</em>.</li>
+</ul>
+<h2>Options</h2>
+<p>Everything is in <strong>Options &gt; AddOns &gt; Quest Together</strong> (or type <code>/qt options</code>):</p>
+<ul>
+<li>Share accepted quests (on by default)</li>
+<li>Accept quests the party shares (off by default)</li>
+<li>Share quests the party is missing (a button)</li>
+<li>Announce finished objectives, and announce completed quests (both on by default)</li>
+<li>Show the party progress panel, and which quests it shows: the ones whose area you're in, the ones in this zone, or all the quests your party shares</li>
+<li>The panel's size and background opacity, and a preview to place it</li>
+</ul>
+<p>The switches and the panel's mode are also in the panel's right-click menu.</p>
+<h2>Privacy</h2>
+<ul>
+<li>Quest Together posts in party chat only while you're in a party (never in a raid), and only the two announcements above.</li>
+<li>To your party members' copies of the addon it sends quest IDs and objective counts, nothing else: no quest names, no objective text, no player names.</li>
+<li>Your settings and the panel's position are stored on your computer, in WoW's saved variables.</li>
+</ul>
+<h2>Good to know</h2>
+<ul>
+<li><strong>Questie</strong> can announce finished objectives in party chat too. If you use both, turn the announcements off in one of them, or your party sees them twice. Quest Together reminds you once when it finds Questie loaded. The same goes for other addons that share your quests (like the quest sharing option in RestedXP Guides).</li>
+<li>Sharing and announcements are for parties. In a raid, the panel still shows your own group's progress.</li>
+<li>Some quests can't be shared (class quests, for example); those are skipped. Sharing waits until you're out of combat.</li>
+<li>If the game doesn't allow an addon to share quests or post for you, Quest Together tells you and stops trying for the session.</li>
+</ul>
+<h2>Feedback</h2>
+<p>Bugs and ideas are welcome: open an issue on <a href="https://github.com/missilebarrage/quest-together/issues">GitHub</a> or leave a comment here. For a bug, please include what <code>/qt debug</code> prints. It shows only quest IDs and numbers, never names, so it's safe to share.</p>
+<p>Quest Together is open source under the MIT license. It isn't affiliated with Blizzard Entertainment, Questie or EllesmereUI.</p>

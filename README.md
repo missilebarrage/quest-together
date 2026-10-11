@@ -91,9 +91,9 @@ scripts/package.sh     # build a zip for manual installation
   (`tests/harness/network.lua`) for sharing and sync. `docs/API-NOTES.md` records the client
   facts the code relies on; `docs/VERIFICATION.md` is the in-game checklist.
 - Code is formatted with StyLua and must pass luacheck. Every bug fix gets a regression test.
-- Releases: tag `vX.Y.Z` and push; the GitHub workflow packages with the BigWigs packager.
-  Uploading to CurseForge also needs the `CF_API_KEY` secret and `## X-Curse-Project-ID` in the
-  TOC (not set up yet).
+- Releases: tag `vX.Y.Z` and push; the GitHub workflow packages with the BigWigs packager and
+  uploads to CurseForge (project 1739654, set in the TOC; needs the `CF_API_KEY` repository
+  secret). `docs/CURSEFORGE.html` is the CurseForge project description, updated there by hand.
 
 ## License
 

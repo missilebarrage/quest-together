@@ -12,6 +12,7 @@ describe("Loading", function()
 		expect(metadata.Interface).toBe("16001")
 		expect(metadata.Author).toBe("Tim")
 		expect(metadata.SavedVariables).toBe("QuestTogetherDB")
+		expect(metadata["X-Curse-Project-ID"]).toBe("1739654")
 	end)
 
 	it("boots in a party with quests without errors", function()
