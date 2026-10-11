@@ -1,0 +1,17 @@
+# CurseForge / BigWigs packager configuration.
+package-as: QuestTogether
+
+# The addon lives in QuestTogether/ inside the repository; this moves its contents to the top of
+# the package (and removes the then-empty inner folder).
+move-folders:
+  QuestTogether/QuestTogether: QuestTogether
+
+ignore:
+  - tests
+  - scripts
+  - docs
+  - stylua.toml
+
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown

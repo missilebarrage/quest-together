@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+  "runtime.version": "Lua 5.1",
+  "workspace.checkThirdParty": false,
+  "workspace.ignoreDir": [".tools", ".release"],
+  "diagnostics.globals": [
+    "QuestTogetherDB",
+    "SLASH_QUESTTOGETHER1",
+    "SLASH_QUESTTOGETHER2",
+    "describe",
+    "it",
+    "expect",
+    "Harness",
+    "ROOT_DIR",
+    "HARNESS_DIR"
+  ]
+}

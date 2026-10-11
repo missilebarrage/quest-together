@@ -1,0 +1,35 @@
+## Interface: 16001
+## Title: Quest Together
+## Notes: Questing in a party: shares your quests, posts finished objectives in party chat and shows everyone's progress on the quests around you.
+## Author: Tim
+## Version: @project-version@
+## IconTexture: Interface\Icons\INV_Misc_Note_02
+## SavedVariables: QuestTogetherDB
+## OptionalDeps: EllesmereUI
+## X-License: MIT
+
+Core\Namespace.lua
+Locales\enUS.lua
+Core\Events.lua
+Core\Database.lua
+Core\Format.lua
+Core\Names.lua
+Quests\QuestLog.lua
+Quests\Scanner.lua
+Group\Roster.lua
+Group\GameProgress.lua
+Group\PartyState.lua
+Comm\Protocol.lua
+Comm\Transport.lua
+Comm\Sync.lua
+Features\Announce.lua
+Features\PushResults.lua
+Features\AutoAccept.lua
+Features\Share.lua
+Features\Areas.lua
+UI\Theme.lua
+UI\Widgets.lua
+UI\Panel.lua
+UI\Options.lua
+Debug.lua
+Init.lua

@@ -1,0 +1,13 @@
+# Local toolchain, privacy denylist and machine-specific paths
+.tools/
+
+# Build output
+*.zip
+.release/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

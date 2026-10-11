@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  # The release workflow runs these checks before it packages anything.
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: .tools
+          key: tools-${{ hashFiles('scripts/bootstrap.sh') }}
+      - name: Install toolchain
+        run: scripts/bootstrap.sh
+      - name: Lint and test
+        run: scripts/test.sh

@@ -1,0 +1,121 @@
+local _, ns = ...
+
+--- English strings (the source of truth for every locale).
+local L = ns.L
+
+L.ADDON_TITLE = "Quest Together"
+L.YES_SHORT = "yes"
+L.NO_SHORT = "no"
+L.ON = "on"
+L.OFF = "off"
+L.YOU = "You"
+L.OPTIONS = "Options"
+L.SHARE = "Share"
+L.PREVIEW = "Preview"
+
+-- Chat announcements, worded like Questie's. {rt1} shows the star raid marker in chat.
+L.ANNOUNCE_OBJECTIVE = "{rt1} %s for %s!"
+L.ANNOUNCE_QUEST = "{rt1} Quest Completed: %s"
+L.ANNOUNCE_BLOCKED = "The game stopped Quest Together from posting in party chat, so it won't post this session."
+L.QUESTIE_NOTICE = "Questie is loaded too. If its quest announcements are on, your party sees finished objectives "
+	.. "twice: turn them off in one of the two addons (Quest Together: /qt options)."
+
+-- Sharing.
+L.SHARE_NOT_IN_PARTY = "You need to be in a party to share quests."
+L.SHARE_NOTHING_MISSING = "Everyone in your party already has your shareable quests."
+L.SHARE_RUN_STARTED = "Sharing %d |4quest:quests; with your party, one at a time. /qt share stop cancels."
+L.SHARE_RUN_DONE = "Done sharing: %d shared, %d accepted, %d declined."
+L.SHARE_STOPPED = "Stopped sharing quests."
+L.SHARE_BLOCKED = "The game doesn't let Quest Together share quests for you, so automatic sharing is off this "
+	.. "session. Use the Share button in your quest log."
+L.SHARE_MISSING_COUNT = "Share quests the party is missing (%d)"
+L.AUTO_ACCEPT_BLOCKED = "The game doesn't let Quest Together accept quests for you, so auto-accept is off this session."
+
+-- Party progress panel.
+L.NOT_ON_QUEST = "Not on quest: %s"
+L.NO_INFO = "No info: %s"
+L.MORE_QUESTS = "+%d more"
+L.PANEL_SHOWS = "Show quests"
+L.MODE_AREAS = "In quest areas I'm in"
+L.MODE_ZONE = "In this zone"
+L.MODE_ALL = "All quests the party shares"
+L.PANEL_HIDE = "Hide panel"
+L.PANEL_HIDDEN = "Party progress panel off. /qt panel turns it back on."
+L.PANEL_SHOWN = "Party progress panel on. It shows while you're in a party and there's progress to show."
+L.PANEL_HINT_MOVE = "Shift-drag to move"
+L.PANEL_HINT_MENU = "Right-click for options"
+L.SOURCE_ADDON = "Quest Together %s"
+L.SOURCE_NONE = "no Quest Together"
+L.NEWER_PEER = "Someone in your party uses a newer Quest Together. Update to see their progress."
+L.PREVIEW_QUEST = "The Boar Hunt"
+L.PREVIEW_OBJECTIVE_1 = "Boar Tusk"
+L.PREVIEW_OBJECTIVE_2 = "Bear Meat"
+L.PREVIEW_MEMBER_1 = "Thrall"
+L.PREVIEW_MEMBER_2 = "Jaina"
+L.PREVIEW_MEMBER_3 = "Anduin"
+
+-- Options.
+L.OPTIONS_SHARING = "Sharing"
+L.OPTIONS_CHAT = "Party chat"
+L.OPTIONS_PANEL = "Party progress panel"
+L.OPTIONS_IN_COMBAT = "Options can't open during combat."
+L.OPTION_AUTO_SHARE = "Share accepted quests"
+L.OPTION_AUTO_SHARE_TOOLTIP = "Shares each quest you accept with your party, skipping anyone who already has it. "
+	.. "Quests a party member shared with you aren't shared back."
+L.OPTION_AUTO_ACCEPT = "Accept quests the party shares"
+L.OPTION_AUTO_ACCEPT_TOOLTIP = "Accepts quests that party members share with you, without the quest dialog."
+L.OPTION_SHARE_MISSING = "Share quests the party is missing"
+L.OPTION_SHARE_MISSING_TOOLTIP = "Shares, one at a time, every quest in your log that someone in your party "
+	.. "doesn't have yet. Also /qt share."
+L.OPTION_ANNOUNCE_OBJECTIVES = "Announce finished objectives"
+L.OPTION_ANNOUNCE_OBJECTIVES_TOOLTIP = 'Posts in party chat when you finish an objective: "6/6 Boar slain for '
+	.. '[The Boar Hunt]!"'
+L.OPTION_ANNOUNCE_QUESTS = "Announce completed quests"
+L.OPTION_ANNOUNCE_QUESTS_TOOLTIP = 'Posts in party chat when a quest is ready to turn in: "Quest Completed: '
+	.. '[The Boar Hunt]"'
+L.OPTION_PANEL = "Show the party progress panel"
+L.OPTION_PANEL_TOOLTIP = "While you're in a party, shows everyone's progress on the quests around you."
+L.OPTION_PANEL_MODE = "Quests to show"
+L.OPTION_PANEL_MODE_TOOLTIP = "In quest areas: the quests whose area (the shape on the map) you're standing in. "
+	.. "In this zone: the quests the map shows here. All: every quest someone in your party has too."
+L.OPTION_PANEL_SCALE = "Panel size"
+L.OPTION_PANEL_SCALE_TOOLTIP = "Scales the party progress panel."
+L.OPTION_PANEL_OPACITY = "Panel background"
+L.OPTION_PANEL_OPACITY_TOOLTIP = "How visible the panel's background and border are. The text always stays."
+L.OPTION_PREVIEW = "Place the panel"
+L.OPTION_PREVIEW_TOOLTIP = "Shows the panel with example progress for 30 seconds, so you can Shift-drag it "
+	.. "where you like. Also /qt preview."
+
+-- Saved data.
+L.DATA_FROM_NEWER_VERSION = "Your settings were saved by a newer version of Quest Together. "
+	.. "They're left untouched and defaults are used until you update."
+
+-- /qt
+L.STATUS = "Share accepted quests: %s, auto-accept: %s, announce objectives: %s, quests: %s, panel: %s."
+L.HELP = "/qt options | panel | preview | share [stop] | debug [quests|areas|peers|tooltip <id>|chat|share|comm]"
+
+-- /qt debug: numbers, quest IDs and unit tokens only.
+L.DEBUG_HEADER = "Version %s, build %s, interface %s."
+L.DEBUG_APIS = "APIs: share %s, unit on quest %s, quest areas %s, party progress %s, chat %s, chat lockdown %s."
+L.DEBUG_STATE = "Grouped %s, raid %s, members %d, quests %d, Questie %s, read-only %s."
+L.DEBUG_SETTINGS = "Settings: %s."
+L.DEBUG_COUNTERS = "Counters: %s."
+L.DEBUG_MISSING_ICONS = "Missing icons: %s."
+L.DEBUG_SCANS = "Scans %d (last %.1f ms), partial reads %d, held decreases %d, settling %s."
+L.DEBUG_LISTED = "The log listed %d of its %d quests."
+L.DEBUG_QUEST = "Quest %d: %d/%d objectives, complete %s, shareable %s, on map %s."
+L.DEBUG_RETRIES = "Waiting for data: %s."
+L.DEBUG_AREAS = "Mode %s, area API %s, area events %d, polls %d, changes %d."
+L.DEBUG_AREA = "Quest %d: in area now %s, tracked inside %s, kept after finishing %s."
+L.DEBUG_PEER = "%s: addon %s, synced %s, quests %d, last message %ds ago, on %d of your %d quests, online %s."
+L.DEBUG_UNIT_ON_QUEST = "Unit-on-quest checks %d, yes %d, proven %s."
+L.DEBUG_GAME_PROGRESS = "Game party progress: %s."
+L.DEBUG_ROSTER = "Roster: %s."
+L.DEBUG_NO_QUEST = "No quest to probe: /qt debug tooltip <questID>."
+L.DEBUG_TOOLTIP = "Quest %d: party progress API %s, call ok %s, lines %d, line types %s, members %s."
+L.DEBUG_CHAT = "Chat locked %s, queued %d, blocked %s, %s."
+L.DEBUG_SHARE = "Auto-share %s, blocked %s, queued %d, sharing quest %s (waiting for %d), %s."
+L.DEBUG_ACCEPT = "Shares received: %s, auto-accept blocked %s."
+L.DEBUG_PUSH_RESULT = "%ds ago: %s from %s."
+L.DEBUG_COMM = "Messages paused %s, queued %d, %s."
+L.DEBUG_SYNC = "Full states sent %d, change batches %d, hellos %d, received %s."
