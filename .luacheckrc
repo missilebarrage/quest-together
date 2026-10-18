@@ -10,6 +10,7 @@ files["QuestTogether/**/*.lua"] = {
 	globals = {
 		-- Saved variables and slash command registration.
 		"QuestTogetherDB",
+		"QuestTogetherCharDB",
 		"SLASH_QUESTTOGETHER1",
 		"SLASH_QUESTTOGETHER2",
 		"SlashCmdList",
@@ -63,7 +64,9 @@ files["QuestTogether/**/*.lua"] = {
 		"UnitExists",
 		"UnitGUID",
 		"UnitIsConnected",
+		"UnitLevel",
 		"UnitName",
+		"UnitXP",
 		-- Global strings and constants.
 		"COMPLETE",
 		"RAID_CLASS_COLORS",

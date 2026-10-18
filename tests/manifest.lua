@@ -4,6 +4,7 @@ return {
 	"questlog_test.lua",
 	"scanner_test.lua",
 	"announce_test.lua",
+	"levels_test.lua",
 	"protocol_test.lua",
 	"sync_test.lua",
 	"share_test.lua",

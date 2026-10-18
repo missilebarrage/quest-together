@@ -36,20 +36,22 @@ describe("Announce", function()
 		expect(world:ChatLines()).toEqual({})
 	end)
 
-	it("posts the last objective, then the completed quest", function()
-		local world = Setup({ objectives = { { "Boar slain", 6, 5 }, { "Bear Meat", 2, 2 } } })
+	it("posts the last objective only, without a second line for the completed quest", function()
+		local world, ns = Setup({ objectives = { { "Boar slain", 6, 5 }, { "Bear Meat", 2, 2 } } })
 		Helpers.Progress(world, 100, 1, 6)
 		world:Advance(1)
-		expect(world:ChatLines()).toEqual({
-			"{rt1} 6/6 Boar slain for " .. LINK .. "!",
-			"{rt1} Quest Completed: " .. LINK,
-		})
+		expect(ns.Scanner.Get(100).complete).toBe(true)
+		expect(world:ChatLines()).toEqual({ "{rt1} 6/6 Boar slain for " .. LINK .. "!" })
 	end)
 
 	it("spaces lines out instead of sending them all at once", function()
-		local world = Setup({ objectives = { { "Boar slain", 6, 5 }, { "Bear Meat", 2, 2 } } })
-		local objective = world:Quest(100).objectives[1]
-		objective.numFulfilled, objective.finished, objective.text = 6, true, "6/6 Boar slain"
+		local world = Setup({ objectives = { { "Boar slain", 6, 5 }, { "Bear Meat", 2, 1 } } })
+		-- Both objectives finish in the same update.
+		for index, count in ipairs({ 6, 2 }) do
+			local objective = world:Quest(100).objectives[index]
+			objective.numFulfilled, objective.finished = count, true
+			objective.text = count .. "/" .. count .. " " .. objective.label
+		end
 		world:Fire("QUEST_LOG_UPDATE")
 		world:Advance(0.26)
 		expect(#world.chatSent).toBe(1)
@@ -88,10 +90,7 @@ describe("Announce", function()
 		expect(world:ChatLines()).toEqual({})
 		Helpers.Progress(world, 100, 1, 6)
 		world:Advance(1)
-		expect(world:ChatLines()).toEqual({
-			"{rt1} 6/6 Boar slain for " .. LINK .. "!",
-			"{rt1} Quest Completed: " .. LINK,
-		})
+		expect(world:ChatLines()).toEqual({ "{rt1} 6/6 Boar slain for " .. LINK .. "!" })
 	end)
 
 	it("doesn't post a finished objective that read low right after login", function()
@@ -112,10 +111,7 @@ describe("Announce", function()
 		-- Once the window has passed, progress is real again.
 		Helpers.Progress(world, 100, 2, 2)
 		world:Advance(1)
-		expect(world:ChatLines()).toEqual({
-			"{rt1} 2/2 Bear Meat for " .. LINK .. "!",
-			"{rt1} Quest Completed: " .. LINK,
-		})
+		expect(world:ChatLines()).toEqual({ "{rt1} 2/2 Bear Meat for " .. LINK .. "!" })
 	end)
 
 	it("posts each objective once, even after dropping below its count and getting back", function()
@@ -136,7 +132,10 @@ describe("Announce", function()
 		world:Advance(1)
 		Helpers.Progress(world, 100, 1, 6)
 		world:Advance(1)
-		expect(#world:ChatLines()).toBe(4)
+		expect(world:ChatLines()).toEqual({
+			"{rt1} 6/6 Boar slain for " .. LINK .. "!",
+			"{rt1} 6/6 Boar slain for " .. LINK .. "!",
+		})
 	end)
 
 	it("doesn't post while solo, nor later for what was finished solo", function()
@@ -155,28 +154,28 @@ describe("Announce", function()
 		expect(world:ChatLines()).toEqual({})
 	end)
 
-	it("follows the two announcement settings", function()
+	it("follows the announcement setting", function()
 		local world, ns = Setup({ objectives = { { "Boar slain", 6, 5 }, { "Bear Meat", 2, 2 } } })
 		ns.Database.Set("announceObjectives", false)
 		Helpers.Progress(world, 100, 1, 6)
 		world:Advance(1)
-		expect(world:ChatLines()).toEqual({ "{rt1} Quest Completed: " .. LINK })
-
-		local other, otherNs = Setup({ objectives = { { "Boar slain", 6, 5 }, { "Bear Meat", 2, 2 } } })
-		otherNs.Database.Set("announceQuests", false)
-		Helpers.Progress(other, 100, 1, 6)
-		other:Advance(1)
-		expect(other:ChatLines()).toEqual({ "{rt1} 6/6 Boar slain for " .. LINK .. "!" })
+		expect(world:ChatLines()).toEqual({})
 	end)
 
-	it("never posts a failed quest as completed", function()
-		local world = Setup({ objectives = { { "Escort", 1, 0, plain = true } } })
-		world:Quest(100).failed = true
-		Helpers.Progress(world, 100, 1, 1)
+	it("drops the old 'announce completed quests' setting and never posts a completed quest", function()
+		local world = Harness.Boot({
+			saved = { QuestTogetherDB = { schema = 1, settings = { announceQuests = true, autoShare = false } } },
+			configure = function(w)
+				Helpers.Have(w, Helpers.Quest(100, "The Boar Hunt", { { "Boar slain", 6, 5 } }))
+			end,
+		})
+		expect(world.env.QuestTogetherDB.settings.announceQuests).toBeNil()
+		-- Other settings stay as they were.
+		expect(world.env.QuestTogetherDB.settings.autoShare).toBe(false)
+		Helpers.Party(world)
+		Helpers.Progress(world, 100, 1, 6)
 		world:Advance(1)
-		for _, line in ipairs(world:ChatLines()) do
-			expect(line:find("Quest Completed", 1, true)).toBeNil()
-		end
+		expect(world:ChatLines()).toEqual({ "{rt1} 6/6 Boar slain for " .. LINK .. "!" })
 	end)
 
 	it("waits while chat is locked down and posts when it's over", function()

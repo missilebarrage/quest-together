@@ -76,7 +76,7 @@ local function Build(layout)
 
 	Header(layout, L.OPTIONS_CHAT)
 	Checkbox("announceObjectives", L.OPTION_ANNOUNCE_OBJECTIVES, L.OPTION_ANNOUNCE_OBJECTIVES_TOOLTIP)
-	Checkbox("announceQuests", L.OPTION_ANNOUNCE_QUESTS, L.OPTION_ANNOUNCE_QUESTS_TOOLTIP)
+	Checkbox("announceLevels", L.OPTION_ANNOUNCE_LEVELS, L.OPTION_ANNOUNCE_LEVELS_TOOLTIP)
 
 	Header(layout, L.OPTIONS_PANEL)
 	Checkbox("panelEnabled", L.OPTION_PANEL, L.OPTION_PANEL_TOOLTIP)

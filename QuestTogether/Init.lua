@@ -12,7 +12,10 @@ Events.On("ADDON_LOADED", function(name)
 end)
 
 -- Separate handlers, so a failure in one part can't keep the others from starting.
+-- Database.ClaimCharacter runs first: it may clear data that belongs to another character.
 for _, initialize in ipairs({
+	Database.ClaimCharacter,
+	ns.Levels.Init,
 	ns.Theme.Init,
 	ns.Transport.Init,
 	ns.PushResults.Init,
@@ -55,7 +58,7 @@ local function Status()
 			OnOff("autoShare"),
 			OnOff("autoAccept"),
 			OnOff("announceObjectives"),
-			OnOff("announceQuests"),
+			OnOff("announceLevels"),
 			OnOff("panelEnabled")
 		)
 	)

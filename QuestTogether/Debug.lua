@@ -164,6 +164,8 @@ local function Chat()
 	local stats, queued, blocked = Announce.Stats()
 	local locked = C_ChatInfo.InChatMessagingLockdown and C_ChatInfo.InChatMessagingLockdown()
 	ns.Print(L.DEBUG_CHAT:format(YesNo(ns.Bool(locked)), queued, YesNo(blocked), Pairs(stats)))
+	local level, quests, partial = ns.Levels.State()
+	ns.Print(L.DEBUG_LEVELS:format(tostring(level or "-"), tostring(quests or "-"), YesNo(partial)))
 end
 
 local function ShareState()

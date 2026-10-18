@@ -16,6 +16,7 @@ local TOC = ADDON_DIR .. "/QuestTogether.toc"
 -- Globals the addon is allowed to create.
 local ALLOWED_GLOBALS = {
 	QuestTogetherDB = true,
+	QuestTogetherCharDB = true,
 	SLASH_QUESTTOGETHER1 = true,
 	SLASH_QUESTTOGETHER2 = true,
 	QuestTogetherPanel = true,
@@ -62,6 +63,7 @@ function Loader.Load(options)
 	local env = Wow.CreateEnvironment(world)
 	if options.saved then
 		env.QuestTogetherDB = Wow.RoundTrip(options.saved.QuestTogetherDB)
+		env.QuestTogetherCharDB = Wow.RoundTrip(options.saved.QuestTogetherCharDB)
 	end
 	local ns = {}
 	for _, file in ipairs(Loader.TocFiles()) do
@@ -98,7 +100,7 @@ function Loader.Restart(world, restartOptions)
 	for key, value in pairs(world.options) do
 		options[key] = value
 	end
-	options.saved = { QuestTogetherDB = world.env.QuestTogetherDB }
+	options.saved = { QuestTogetherDB = world.env.QuestTogetherDB, QuestTogetherCharDB = world.env.QuestTogetherCharDB }
 	options.reload = restartOptions.reload == true
 	options.settle = restartOptions.settle
 	options.now = world.clock.server + (restartOptions.gap or 0)

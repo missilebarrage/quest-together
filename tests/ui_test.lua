@@ -213,6 +213,8 @@ describe("Panel", function()
 		expect(zone.kind).toBe("radio")
 		zone.setSelected(zone.data)
 		expect(ns.Database.Get("panelMode")).toBe("zone")
+		expect(Helpers.FindEntry(entries, "Announce finished objectives")).toBeTruthy()
+		expect(Helpers.FindEntry(entries, "Announce completed quests")).toBeNil()
 		local autoShare = Helpers.FindEntry(entries, "Share accepted quests")
 		autoShare.setSelected(autoShare.data)
 		expect(ns.Database.Get("autoShare")).toBe(false)
@@ -275,7 +277,7 @@ describe("Options", function()
 			"autoShare",
 			"autoAccept",
 			"announceObjectives",
-			"announceQuests",
+			"announceLevels",
 			"panelEnabled",
 			"panelMode",
 			"panelScale",
@@ -283,6 +285,7 @@ describe("Options", function()
 		}) do
 			expect(category.settings[key]).toBeTruthy()
 		end
+		expect(category.settings.announceQuests).toBeNil()
 	end)
 
 	it("stays in sync with changes made elsewhere", function()

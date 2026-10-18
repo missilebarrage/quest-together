@@ -5,6 +5,7 @@
 ## Version: @project-version@
 ## IconTexture: Interface\Icons\INV_Misc_Note_02
 ## SavedVariables: QuestTogetherDB
+## SavedVariablesPerCharacter: QuestTogetherCharDB
 ## OptionalDeps: EllesmereUI
 ## X-License: MIT
 ## X-Curse-Project-ID: 1739654
@@ -24,6 +25,7 @@ Comm\Protocol.lua
 Comm\Transport.lua
 Comm\Sync.lua
 Features\Announce.lua
+Features\Levels.lua
 Features\PushResults.lua
 Features\AutoAccept.lua
 Features\Share.lua

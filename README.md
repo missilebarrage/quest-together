@@ -14,11 +14,15 @@ shows everyone's progress on the quests around you in a small panel.
 - **Accepts shared quests** (optional, off by default) — quests your party members share with
   you are accepted without the quest dialog.
 - **Party chat announcements**, worded like Questie's (the line starts with a star icon):
-  - `6/6 Boar slain for [The Boar Hunt]!` when you finish an objective;
-  - `Quest Completed: [The Boar Hunt]` when the quest is ready to turn in.
-
-  Each objective is posted once: logging in with finished objectives, or dropping below a
-  count and getting back to it, posts nothing.
+  `6/6 Boar slain for [The Boar Hunt]!` when you finish an objective. Finishing a quest's last
+  objective posts just that line, without a second one for the quest. Each objective is posted
+  once: logging in with finished objectives, or dropping below a count and getting back to it,
+  posts nothing.
+- **Level-up announcements** — when you level up, Quest Together posts how many quests you
+  turned in at the level you just finished: `[Quest Together]: 7 quests completed at Level 12!`
+  The turn-in that levels you up counts toward the old level, and the count carries over
+  reloads and logouts. A level it only saw part of (because it was installed or switched off
+  partway through) isn't posted; it tells you so instead.
 - **Party progress panel** — while you stand in a quest's area (the shape the map draws for
   it), a panel shows each party member's progress on it:
 
@@ -67,11 +71,12 @@ example) would share your quests a second time.
 
 ## Privacy
 
-- Party chat posts are only made while you're in a party (not a raid), and only for the two
+- Party chat posts are only made while you're in a party (not a raid), and only for the
   announcements above.
 - To your party, over the addon channel, Quest Together sends quest IDs, objective counts and
   its version: never quest titles, objective text or names.
-- Settings and the panel position are stored in your saved variables. `/qt debug` prints quest
+- Settings, the panel position and each character's quest count for its current level are
+  stored in your saved variables. `/qt debug` prints quest
   IDs, counts and unit tokens only, so it's safe to share.
 
 ## Development

@@ -18,6 +18,7 @@ ns.Protocol = {}
 ns.Transport = {}
 ns.Sync = {}
 ns.Announce = {}
+ns.Levels = {}
 ns.PushResults = {}
 ns.Share = {}
 ns.AutoAccept = {}

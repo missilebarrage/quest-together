@@ -38,6 +38,12 @@ build 1.60.1.70338), unless marked otherwise. "Unverified" items are on the in-g
   `TOO_FAR`, ...). They don't name the quest. They arrive as `UI_INFO_MESSAGE(type, text)` —
   `GetGameMessageInfo(type)` returns the global's name — or as `CHAT_MSG_SYSTEM` (secret during
   chat lockdown). **Unverified** which one Forever uses.
+- Level-ups: `PLAYER_LEVEL_UP(level, healthDelta, powerDelta, ...)` carries the new level
+  (`UnitDocumentation.lua`). The reward window of a turn-in fires `QUEST_COMPLETE` (no payload;
+  `GetQuestID()` names the quest, `QuestFrame.lua` registers it), before `GetQuestReward` and
+  `QUEST_TURNED_IN`. **Unverified** on Forever: that a turn-in which levels you up reports
+  `PLAYER_LEVEL_UP` before `QUEST_TURNED_IN` (it does on server emulators); the addon copes
+  with either order by noting the level when the reward window opens.
 - Receiving a share opens the quest dialog: `QUEST_DETAIL`, with `UnitGUID("questnpc")` the
   sharing player (Questie relies on this) and `GetQuestID()` the quest; `AcceptQuest()`.
 - Party Sync is off on camelot (`Camelot/QuestMapFrameUtils.lua`: `IsPartySyncEnabled` false).

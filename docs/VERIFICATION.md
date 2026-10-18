@@ -48,13 +48,17 @@ The first section decides which fallbacks matter, so run it first. Record result
 
 ## 3. Announcements
 
-- [ ] Finishing an objective posts once; finishing the last one posts the objective, then
-      "Quest Completed: [Quest]".
+- [ ] Finishing an objective posts once; finishing the last one posts only that objective, with
+      no second line for the quest.
 - [ ] `/reload` with finished objectives: nothing is posted.
 - [ ] Solo: nothing is posted, and nothing later for objectives finished while solo.
 - [ ] Inside a dungeon during a boss fight (chat lockdown): lines wait and post after the fight
       (`/qt debug chat`).
 - [ ] With Questie loaded, the one-time notice appears.
+- [ ] Level up in a party by turning in a quest: about 3 seconds later the party sees
+      "[Quest Together]: N quests completed at Level X!", where N includes the quest that
+      leveled you. `/qt debug chat` shows the new level's count starting at 0. On a level the
+      addon saw only part of, it prints why it posted nothing instead.
 
 ## 4. Panel
 

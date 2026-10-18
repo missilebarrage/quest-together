@@ -1,8 +1,8 @@
 local _, ns = ...
 
---- Posts finished objectives and completed quests in party chat, worded like Questie:
+--- Posts finished objectives in party chat, worded like Questie:
 ---   {rt1} 6/6 Boar slain for [The Boar Hunt]!
----   {rt1} Quest Completed: [The Boar Hunt]
+--- A completed quest gets no line of its own: its last objective's line already says it.
 --- Only what the player is seen to finish is posted, each objective once: logging in with
 --- finished objectives, or dropping below a count and getting back to it, posts nothing.
 --- A quest that is turned in or abandoned can post again when it's picked up next time.
@@ -23,25 +23,24 @@ local MAX_QUEUE = 10
 local SEND_INTERVAL = 0.3
 local MAX_AGE = 120
 local LOCKDOWN_CHECK_SECONDS = 5
-local QUEST_KEY = "Q"
 
--- announced[questID][objectiveIndex or "Q"] = true
+-- announced[questID][objectiveIndex] = true
 local announced = {} ---@type table<integer, table>
 local queue = {} ---@type {text: string, at: number}[]
 local pump
 local blocked = false
 local stats = { sent = 0, stale = 0, overflow = 0, lockdownWaits = 0, failed = 0 }
 
-local function Mark(questID, key)
-	local keys = announced[questID]
-	if not keys then
-		keys = {}
-		announced[questID] = keys
+local function Mark(questID, index)
+	local indexes = announced[questID]
+	if not indexes then
+		indexes = {}
+		announced[questID] = indexes
 	end
-	if keys[key] then
+	if indexes[index] then
 		return false
 	end
-	keys[key] = true
+	indexes[index] = true
 	return true
 end
 
@@ -110,6 +109,13 @@ local function Queue(text)
 	StartPump()
 end
 
+--- Posts a line in party chat through the same queue (lockdown wait, staleness, blocking)
+--- as the objective announcements. Nothing is posted outside a party.
+---@param text string
+function Announce.Post(text)
+	Queue(text)
+end
+
 --- Fits "format(text, link)" into one chat message by shortening the text, never the link.
 local function Compose(format, text, link)
 	local message = format:format(text, link)
@@ -129,13 +135,6 @@ function Announce.ObjectiveLine(quest, index)
 	return Compose(L.ANNOUNCE_OBJECTIVE, text, QuestLog.Link(quest.questID, quest.title))
 end
 
---- The line posted for a completed quest.
----@param quest QTQuest
----@return string
-function Announce.QuestLine(quest)
-	return L.ANNOUNCE_QUEST:format(QuestLog.Link(quest.questID, quest.title))
-end
-
 function Announce.Stats()
 	return stats, #queue, blocked
 end
@@ -151,9 +150,6 @@ Events.On("QT_QUEST_ADDED", function(questID)
 			Mark(questID, index)
 		end
 	end
-	if quest.complete then
-		Mark(questID, QUEST_KEY)
-	end
 end)
 
 Events.On("QT_OBJECTIVE_DONE", function(questID, index, silent)
@@ -164,16 +160,6 @@ Events.On("QT_OBJECTIVE_DONE", function(questID, index, silent)
 	-- An objective without text can't be put into words.
 	if Database.Get("announceObjectives") and not quest.objectives[index].hidden then
 		Queue(Announce.ObjectiveLine(quest, index))
-	end
-end)
-
-Events.On("QT_QUEST_DONE", function(questID, _, silent)
-	local quest = Scanner.Get(questID)
-	if not quest or quest.failed or not Mark(questID, QUEST_KEY) or silent then
-		return
-	end
-	if Database.Get("announceQuests") then
-		Queue(Announce.QuestLine(quest))
 	end
 end)
 

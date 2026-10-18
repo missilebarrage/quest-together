@@ -112,6 +112,8 @@ function Wow.NewWorld(options)
 			surname = "Example",
 			realm = "TestRealm",
 			class = "WARRIOR",
+			level = 10,
+			xp = 0,
 		},
 		units = {},
 		group = nil, -- nil | "party" | "raid"
@@ -538,6 +540,14 @@ function Wow.CreateEnvironment(world)
 		if data and data.class then
 			return data.class:sub(1, 1) .. data.class:sub(2):lower(), data.class, 1
 		end
+	end
+	env.UnitLevel = function(unit)
+		local data = Unit(unit)
+		return data and data.level or 0
+	end
+	env.UnitXP = function(unit)
+		local data = Unit(unit)
+		return data and data.xp or 0
 	end
 	env.UnitIsConnected = function(unit)
 		local data = Unit(unit)

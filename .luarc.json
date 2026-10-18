@@ -5,6 +5,7 @@
   "workspace.ignoreDir": [".tools", ".release"],
   "diagnostics.globals": [
     "QuestTogetherDB",
+    "QuestTogetherCharDB",
     "SLASH_QUESTTOGETHER1",
     "SLASH_QUESTTOGETHER2",
     "describe",

@@ -1,7 +1,8 @@
 local _, ns = ...
 
---- SavedVariables: QuestTogetherDB holds the account-wide settings and the panel position.
---- Data written by a newer version is never modified: the addon runs on defaults and warns.
+--- SavedVariables: QuestTogetherDB holds the account-wide settings and the panel position;
+--- QuestTogetherCharDB this character's level-up quest count. Data written by a newer version
+--- is never modified: the addon runs on defaults (and without character data) and warns.
 ---@class QTDatabase
 local Database = ns.Database
 local Events = ns.Events
@@ -12,7 +13,7 @@ Database.DEFAULTS = {
 	autoShare = true,
 	autoAccept = false,
 	announceObjectives = true,
-	announceQuests = true,
+	announceLevels = true,
 	panelEnabled = true,
 	panelMode = "areas", -- "areas" | "zone" | "all"
 	panelScale = 1,
@@ -40,6 +41,7 @@ local VALID_POINTS = {
 }
 
 local account ---@type table
+local character ---@type table?
 local readOnly = false
 
 local function FillDefaults(settings)
@@ -92,6 +94,40 @@ function Database.Init()
 		account.notices = {}
 	end
 	FillDefaults(account.settings)
+	-- Left over from 0.1.0, which also posted "Quest Completed" lines.
+	account.settings.announceQuests = nil
+	if QuestTogetherCharDB == nil then
+		QuestTogetherCharDB = { schema = ns.SCHEMA }
+	end
+	if Upgrade(QuestTogetherCharDB) then
+		character = QuestTogetherCharDB
+	elseif not readOnly then
+		readOnly = true
+		ns.Print(L.DATA_FROM_NEWER_VERSION)
+	end
+end
+
+--- Makes sure the character data is this character's. A new character with the name of a
+--- deleted one gets the deleted one's saved variables from the game, so the data remembers
+--- whose it is and starts over for anyone else. Called at PLAYER_LOGIN.
+function Database.ClaimCharacter()
+	local guid = ns.Str(UnitGUID("player"))
+	if not (character and guid) then
+		return
+	end
+	if ns.Str(character.guid) ~= guid then
+		for key in pairs(character) do
+			character[key] = nil
+		end
+		character.schema = ns.SCHEMA
+		character.guid = guid
+	end
+end
+
+--- This character's data, or nil while it can't be used (saved by a newer version).
+---@return table?
+function Database.Char()
+	return character
 end
 
 --- True the first time it's asked about a one-time notice, false ever after.

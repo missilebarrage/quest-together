@@ -19,12 +19,8 @@
 <li><strong>Shares your quests</strong> &mdash; every quest you accept is shared with your party a moment later. Anyone who already has it is skipped, and quests are shared one at a time, so nobody gets a pile of quest windows at once. A quest a party member shared with you isn't shared back, and when two of you take the same quest from a quest giver, it's only shared once.</li>
 <li><strong>Catch up late joiners</strong> &mdash; <em>Share quests the party is missing</em> (<code>/qt share</code>, the panel's menu or the options) offers a newcomer every quest in your log they don't have yet, one after another, and tells you how many they took.</li>
 <li><strong>Accept shared quests automatically</strong> (optional, off by default) &mdash; quests your party members share with you are accepted without the quest window.</li>
-<li><strong>Party chat announcements</strong>, worded like Questie's, with a star icon in front:
-<ul>
-<li><em>6/6 Boar slain for [The Boar Hunt]!</em> when you finish an objective</li>
-<li><em>Quest Completed: [The Boar Hunt]</em> when the quest is ready to turn in</li>
-</ul>
-Quest names are clickable links. Each objective is announced once: logging in with objectives already done, or dropping below a count and getting back to it, posts nothing.</li>
+<li><strong>Party chat announcements</strong>, worded like Questie's, with a star icon in front: <em>6/6 Boar slain for [The Boar Hunt]!</em> when you finish an objective. Finishing a quest's last objective posts just that line, without a second one for the quest. Quest names are clickable links. Each objective is announced once: logging in with objectives already done, or dropping below a count and getting back to it, posts nothing.</li>
+<li><strong>Level-up announcements</strong> &mdash; when you level up, Quest Together posts how many quests you turned in at the level you just finished: <em>[Quest Together]: 7 quests completed at Level 12!</em> The turn-in that levels you up counts toward the old level, and the count carries over reloads and logouts. A level it only saw part of (because it was installed partway through, for example) isn't posted; it tells you so instead.</li>
 <li><strong>Party progress panel</strong> &mdash; when you walk into a quest's area (the shape the map draws for it), a small panel shows how far everyone is on that quest:
 <table>
 <thead><tr><th>The Boar Hunt</th><th>You</th><th>Thrall</th><th>Jaina</th></tr></thead>
@@ -48,16 +44,16 @@ Finished objectives get a green check and names are in class colours. The panel 
 <li>Share accepted quests (on by default)</li>
 <li>Accept quests the party shares (off by default)</li>
 <li>Share quests the party is missing (a button)</li>
-<li>Announce finished objectives, and announce completed quests (both on by default)</li>
+<li>Announce finished objectives, and announce level-ups (both on by default)</li>
 <li>Show the party progress panel, and which quests it shows: the ones whose area you're in, the ones in this zone, or all the quests your party shares</li>
 <li>The panel's size and background opacity, and a preview to place it</li>
 </ul>
 <p>The switches and the panel's mode are also in the panel's right-click menu.</p>
 <h2>Privacy</h2>
 <ul>
-<li>Quest Together posts in party chat only while you're in a party (never in a raid), and only the two announcements above.</li>
+<li>Quest Together posts in party chat only while you're in a party (never in a raid), and only the announcements above.</li>
 <li>To your party members' copies of the addon it sends quest IDs and objective counts, nothing else: no quest names, no objective text, no player names.</li>
-<li>Your settings and the panel's position are stored on your computer, in WoW's saved variables.</li>
+<li>Your settings, the panel's position and each character's quest count for its current level are stored on your computer, in WoW's saved variables.</li>
 </ul>
 <h2>Good to know</h2>
 <ul>

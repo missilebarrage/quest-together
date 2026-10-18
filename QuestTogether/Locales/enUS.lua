@@ -15,7 +15,12 @@ L.PREVIEW = "Preview"
 
 -- Chat announcements, worded like Questie's. {rt1} shows the star raid marker in chat.
 L.ANNOUNCE_OBJECTIVE = "{rt1} %s for %s!"
-L.ANNOUNCE_QUEST = "{rt1} Quest Completed: %s"
+-- At a level-up: the quests turned in at the level just finished.
+L.ANNOUNCE_LEVEL = "[Quest Together]: %s completed at Level %d!"
+L.QUESTS_ONE = "%d quest"
+L.QUESTS_MANY = "%d quests"
+L.LEVEL_PARTLY_TRACKED = "Level %d was only partly tracked (Quest Together wasn't running for all of it), so its "
+	.. "quest count wasn't posted. From now on it's posted at every level-up."
 L.ANNOUNCE_BLOCKED = "The game stopped Quest Together from posting in party chat, so it won't post this session."
 L.QUESTIE_NOTICE = "Questie is loaded too. If its quest announcements are on, your party sees finished objectives "
 	.. "twice: turn them off in one of the two addons (Quest Together: /qt options)."
@@ -70,9 +75,9 @@ L.OPTION_SHARE_MISSING_TOOLTIP = "Shares, one at a time, every quest in your log
 L.OPTION_ANNOUNCE_OBJECTIVES = "Announce finished objectives"
 L.OPTION_ANNOUNCE_OBJECTIVES_TOOLTIP = 'Posts in party chat when you finish an objective: "6/6 Boar slain for '
 	.. '[The Boar Hunt]!"'
-L.OPTION_ANNOUNCE_QUESTS = "Announce completed quests"
-L.OPTION_ANNOUNCE_QUESTS_TOOLTIP = 'Posts in party chat when a quest is ready to turn in: "Quest Completed: '
-	.. '[The Boar Hunt]"'
+L.OPTION_ANNOUNCE_LEVELS = "Announce level-ups"
+L.OPTION_ANNOUNCE_LEVELS_TOOLTIP = "Posts in party chat how many quests you turned in at a level when you finish it: "
+	.. '"[Quest Together]: 7 quests completed at Level 12!"'
 L.OPTION_PANEL = "Show the party progress panel"
 L.OPTION_PANEL_TOOLTIP = "While you're in a party, shows everyone's progress on the quests around you."
 L.OPTION_PANEL_MODE = "Quests to show"
@@ -91,7 +96,7 @@ L.DATA_FROM_NEWER_VERSION = "Your settings were saved by a newer version of Ques
 	.. "They're left untouched and defaults are used until you update."
 
 -- /qt
-L.STATUS = "Share accepted quests: %s, auto-accept: %s, announce objectives: %s, quests: %s, panel: %s."
+L.STATUS = "Share accepted quests: %s, auto-accept: %s, announce objectives: %s, level-ups: %s, panel: %s."
 L.HELP = "/qt options | panel | preview | share [stop] | debug [quests|areas|peers|tooltip <id>|chat|share|comm]"
 
 -- /qt debug: numbers, quest IDs and unit tokens only.
@@ -114,6 +119,7 @@ L.DEBUG_ROSTER = "Roster: %s."
 L.DEBUG_NO_QUEST = "No quest to probe: /qt debug tooltip <questID>."
 L.DEBUG_TOOLTIP = "Quest %d: party progress API %s, call ok %s, lines %d, line types %s, members %s."
 L.DEBUG_CHAT = "Chat locked %s, queued %d, blocked %s, %s."
+L.DEBUG_LEVELS = "Level %s: %s quests turned in so far, partly tracked %s."
 L.DEBUG_SHARE = "Auto-share %s, blocked %s, queued %d, sharing quest %s (waiting for %d), %s."
 L.DEBUG_ACCEPT = "Shares received: %s, auto-accept blocked %s."
 L.DEBUG_PUSH_RESULT = "%ds ago: %s from %s."
