@@ -764,46 +764,54 @@ function Wow.CreateEnvironment(world)
 	end
 
 	-- Context menus (Blizzard_Menu): the generator runs at once and the entries are kept, so
-	-- tests can read them and pick checkboxes, radios and buttons.
+	-- tests can read them and pick checkboxes, radios and buttons. As in the client, every
+	-- entry can hold entries of its own (a submenu), kept in entry.children.
+	local function MenuNode(list)
+		local node = {}
+		local function Add(entry)
+			list[#list + 1] = entry
+			function entry.SetEnabled(self, enabled)
+				self.disabled = not enabled
+			end
+			entry.children = {}
+			for name, create in pairs(MenuNode(entry.children)) do
+				entry[name] = create
+			end
+			return entry
+		end
+		function node.CreateTitle(_, text)
+			return Add({ kind = "title", text = text })
+		end
+		function node.CreateDivider()
+			return Add({ kind = "divider" })
+		end
+		function node.CreateButton(_, text, callback, data)
+			return Add({ kind = "button", text = text, callback = callback, data = data })
+		end
+		function node.CreateCheckbox(_, text, isSelected, setSelected, data)
+			return Add({
+				kind = "checkbox",
+				text = text,
+				isSelected = isSelected,
+				setSelected = setSelected,
+				data = data,
+			})
+		end
+		function node.CreateRadio(_, text, isSelected, setSelected, data)
+			return Add({
+				kind = "radio",
+				text = text,
+				isSelected = isSelected,
+				setSelected = setSelected,
+				data = data,
+			})
+		end
+		return node
+	end
 	env.MenuUtil = {
 		CreateContextMenu = function(owner, generator)
 			local menu = { owner = owner, entries = {} }
-			local root = {}
-			local function Add(entry)
-				menu.entries[#menu.entries + 1] = entry
-				function entry.SetEnabled(self, enabled)
-					self.disabled = not enabled
-				end
-				return entry
-			end
-			function root.CreateTitle(_, text)
-				return Add({ kind = "title", text = text })
-			end
-			function root.CreateDivider()
-				return Add({ kind = "divider" })
-			end
-			function root.CreateButton(_, text, callback, data)
-				return Add({ kind = "button", text = text, callback = callback, data = data })
-			end
-			function root.CreateCheckbox(_, text, isSelected, setSelected, data)
-				return Add({
-					kind = "checkbox",
-					text = text,
-					isSelected = isSelected,
-					setSelected = setSelected,
-					data = data,
-				})
-			end
-			function root.CreateRadio(_, text, isSelected, setSelected, data)
-				return Add({
-					kind = "radio",
-					text = text,
-					isSelected = isSelected,
-					setSelected = setSelected,
-					data = data,
-				})
-			end
-			generator(owner, root)
+			generator(owner, MenuNode(menu.entries))
 			world.menus[#world.menus + 1] = menu
 			return menu
 		end,

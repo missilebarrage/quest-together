@@ -121,10 +121,11 @@ describe("Panel", function()
 		expect(Grid(world)[3]).toBe("Bear Meat | 7/10 | 2/10 | ?")
 	end)
 
-	it("shows several quests, at most four, then how many more", function()
+	-- A party in zone mode with `count` one-objective quests ("Quest 1", "Quest 2", ...).
+	local function ManyQuests(count)
 		local world, ns = Harness.Boot({
 			configure = function(w)
-				for index = 1, 6 do
+				for index = 1, count do
 					Helpers.Have(w, Helpers.Quest(100 + index, "Quest " .. index, { { "Thing", 3, 1 } }))
 				end
 			end,
@@ -132,9 +133,95 @@ describe("Panel", function()
 		Helpers.Party(world)
 		ns.Database.Set("panelMode", "zone")
 		world:Advance(0.5)
+		return world, ns
+	end
+
+	local function Titles(world)
+		local titles = {}
+		for _, line in ipairs(Grid(world)) do
+			local title = line:match("^(Quest %d+) |")
+			if title then
+				titles[#titles + 1] = title
+			end
+		end
+		return titles
+	end
+
+	it("shows four quests by default, then how many more and how to see them", function()
+		local world = ManyQuests(6)
 		local grid = Grid(world)
-		expect(grid[1]).toBe("Quest 1 | You")
-		expect(grid[#grid]).toBe("+2 more")
+		expect(Titles(world)).toEqual({ "Quest 1", "Quest 2", "Quest 3", "Quest 4" })
+		expect(grid[#grid]).toBe("+2 more (right-click to show more)")
+	end)
+
+	it("shows as many quests as the setting allows", function()
+		local world, ns = ManyQuests(6)
+		ns.Database.Set("panelMaxQuests", 6)
+		world:Advance(0.2)
+		expect(#Titles(world)).toBe(6)
+		for _, line in ipairs(Grid(world)) do
+			expect(line:find("^%+%d+ more")).toBeNil()
+		end
+		ns.Database.Set("panelMaxQuests", 2)
+		world:Advance(0.2)
+		expect(Titles(world)).toEqual({ "Quest 1", "Quest 2" })
+		expect(Grid(world)[#Grid(world)]).toBe("+4 more (right-click to show more)")
+	end)
+
+	it("shows up to twenty quests, without the hint once there's no higher limit", function()
+		local world, ns = ManyQuests(25)
+		ns.Database.Set("panelMaxQuests", 20)
+		world:Advance(0.2)
+		expect(#Titles(world)).toBe(20)
+		expect(Grid(world)[#Grid(world)]).toBe("+5 more")
+		expect(world.errors).toEqual({})
+	end)
+
+	it("sets how many quests it shows from its menu", function()
+		local world, ns = ManyQuests(9)
+		local limits = Helpers.FindEntry(Helpers.OpenMenu(world), "Quests shown: 4")
+		expect(limits).toBeTruthy()
+		local labels = {}
+		for _, radio in ipairs(limits.children) do
+			expect(radio.kind).toBe("radio")
+			labels[#labels + 1] = radio.text
+		end
+		expect(labels).toEqual({ "2", "4", "6", "8", "10", "15", "20" })
+		expect(Helpers.FindEntry(limits.children, "4").isSelected(4)).toBe(true)
+		local eight = Helpers.FindEntry(limits.children, "8")
+		eight.setSelected(eight.data)
+		expect(ns.Database.Get("panelMaxQuests")).toBe(8)
+		world:Advance(0.2)
+		expect(#Titles(world)).toBe(8)
+		expect(Helpers.FindEntry(Helpers.OpenMenu(world), "Quests shown: 8")).toBeTruthy()
+	end)
+
+	it("offers the limit in the options as a whole-number slider", function()
+		local world, ns = Harness.Boot()
+		local setting = world.settingsCategories[1].settings.panelMaxQuests
+		expect(setting.control).toBe("slider")
+		expect({ setting.options.minimum, setting.options.maximum, setting.options.step }).toEqual({ 1, 20, 1 })
+		expect(setting.options.formatter(8)).toBe("8")
+		expect(setting.default).toBe(4)
+		setting:SetValue(12)
+		expect(ns.Database.Get("panelMaxQuests")).toBe(12)
+	end)
+
+	it("repairs a saved limit outside its range and leaves the other settings alone", function()
+		for _, saved in ipairs({ 0, 21, 2.5, "lots" }) do
+			local world = Harness.Boot({
+				saved = {
+					QuestTogetherDB = {
+						schema = 1,
+						settings = { panelMaxQuests = saved, panelOpacity = 0, announceObjectives = false },
+					},
+				},
+			})
+			local settings = world.env.QuestTogetherDB.settings
+			expect(settings.panelMaxQuests).toBe(4)
+			expect(settings.panelOpacity).toBe(0)
+			expect(settings.announceObjectives).toBe(false)
+		end
 	end)
 
 	it("doesn't create frames again when it refreshes", function()
@@ -280,6 +367,7 @@ describe("Options", function()
 			"announceLevels",
 			"panelEnabled",
 			"panelMode",
+			"panelMaxQuests",
 			"panelScale",
 			"panelOpacity",
 		}) do

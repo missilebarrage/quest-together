@@ -32,7 +32,8 @@ local CELL_MIN, CELL_MAX = 22, 64
 local CELL_GAP = 8
 local CHECK_SIZE = 12
 local MAX_COLUMNS = 5
-local MAX_QUESTS = 4
+-- Choices in the panel's menu; the options' slider allows every number in the range.
+local QUEST_LIMITS = { 2, 4, 6, 8, 10, 15, 20 }
 local PREVIEW_SECONDS = 30
 
 ---@class QTPanelCell
@@ -115,12 +116,23 @@ local function QuestRows(questID, out)
 	end
 end
 
+--- How many quests the panel lists before "+N more".
+---@return integer
+local function MaxQuests()
+	local range = Database.RANGES.panelMaxQuests
+	local value = math.floor(ns.Num(Database.Get("panelMaxQuests")) or Database.DEFAULTS.panelMaxQuests)
+	return math.max(range[1], math.min(range[2], value))
+end
+
 local function LiveRows()
 	local out = {}
+	local maxQuests = MaxQuests()
 	Areas.Visible(visible)
 	for position, questID in ipairs(visible) do
-		if position > MAX_QUESTS then
-			out[#out + 1] = { kind = "footer", text = L.MORE_QUESTS:format(#visible - MAX_QUESTS) }
+		if position > maxQuests then
+			-- Below the highest limit, say how to see the rest.
+			local more = maxQuests < Database.RANGES.panelMaxQuests[2] and L.MORE_QUESTS_HINT or L.MORE_QUESTS
+			out[#out + 1] = { kind = "footer", text = more:format(#visible - maxQuests) }
 			break
 		end
 		QuestRows(questID, out)
@@ -323,6 +335,14 @@ local function SetMode(mode)
 	Database.Set("panelMode", mode)
 end
 
+local function IsMaxQuests(limit)
+	return MaxQuests() == limit
+end
+
+local function SetMaxQuests(limit)
+	Database.Set("panelMaxQuests", limit)
+end
+
 local function IsOn(key)
 	return Database.Get(key) == true
 end
@@ -341,6 +361,10 @@ local function OpenMenu(owner)
 		root:CreateTitle(L.PANEL_SHOWS)
 		for _, mode in ipairs(MODES) do
 			root:CreateRadio(mode[2], IsMode, SetMode, mode[1])
+		end
+		local limits = root:CreateButton(L.PANEL_MAX_QUESTS_MENU:format(MaxQuests()))
+		for _, limit in ipairs(QUEST_LIMITS) do
+			limits:CreateRadio(tostring(limit), IsMaxQuests, SetMaxQuests, limit)
 		end
 		root:CreateDivider()
 		root:CreateCheckbox(L.OPTION_AUTO_SHARE, IsOn, Toggle, "autoShare")
@@ -541,7 +565,7 @@ Events.On("QT_SETTINGS_CHANGED", function(key)
 		Theme.RefreshPixels()
 	elseif key == "panelOpacity" and frame then
 		ApplyOpacity()
-	elseif key == "panelEnabled" or key == "panelMode" then
+	elseif key == "panelEnabled" or key == "panelMode" or key == "panelMaxQuests" then
 		ScheduleRefresh()
 	end
 end)

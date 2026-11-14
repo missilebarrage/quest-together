@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 — 2026-11-14
+
+- The party progress panel can list more than 4 quests: choose up to 20 under "Quests shown"
+  in its right-click menu, or with "Quests shown at most" in the options. 4 is still the
+  default. When quests don't fit, "+N more" now says to right-click to show more.
+
 ## 0.2.0 — 2026-10-18
 
 - Level-up announcements: when you level up, Quest Together posts in party chat how many

@@ -62,6 +62,16 @@ local function PercentSlider(key, name, tooltip, minimum, maximum, step, toPerce
 	Settings.CreateSlider(category, Register(key, Settings.VarType.Number, name), options, tooltip)
 end
 
+-- A slider for a whole number.
+local function CountSlider(key, name, tooltip, step)
+	local range = Database.RANGES[key]
+	local options = Settings.CreateSliderOptions(range[1], range[2], step)
+	options:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, function(value)
+		return string.format("%d", value + 0.5)
+	end)
+	Settings.CreateSlider(category, Register(key, Settings.VarType.Number, name), options, tooltip)
+end
+
 local function Header(layout, text)
 	layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(text))
 end
@@ -85,6 +95,7 @@ local function Build(layout)
 		{ "zone", L.MODE_ZONE },
 		{ "all", L.MODE_ALL },
 	})
+	CountSlider("panelMaxQuests", L.OPTION_PANEL_MAX_QUESTS, L.OPTION_PANEL_MAX_QUESTS_TOOLTIP, 1)
 	PercentSlider("panelScale", L.OPTION_PANEL_SCALE, L.OPTION_PANEL_SCALE_TOOLTIP, 0.75, 1.5, 0.05, 100)
 	PercentSlider("panelOpacity", L.OPTION_PANEL_OPACITY, L.OPTION_PANEL_OPACITY_TOOLTIP, 0, 100, 5, 1)
 	layout:AddInitializer(CreateSettingsButtonInitializer(L.OPTION_PREVIEW, L.PREVIEW, function()

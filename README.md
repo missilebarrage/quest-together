@@ -35,8 +35,10 @@ shows everyone's progress on the quests around you in a small panel.
 
   It shows only while you're in a party and there's progress to show. Shift-drag it to move
   it, right-click it to choose what it shows: quests in the areas you're in (the default),
-  every quest in this zone, or every quest the party shares. Its size and background are in
-  the options, and `/qt preview` shows it with example content so you can place it.
+  every quest in this zone, or every quest the party shares. It lists 4 quests at a time by
+  default, then "+N more"; choose up to 20 under "Quests shown" in that menu or in the options.
+  Its size and background are in the options, and `/qt preview` shows it with example content
+  so you can place it.
 - **Fits your UI** — a flat, minimal look inspired by EllesmereUI; when EllesmereUI is
   installed, Quest Together follows its accent colour and font.
 

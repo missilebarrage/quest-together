@@ -40,6 +40,8 @@ L.AUTO_ACCEPT_BLOCKED = "The game doesn't let Quest Together accept quests for y
 L.NOT_ON_QUEST = "Not on quest: %s"
 L.NO_INFO = "No info: %s"
 L.MORE_QUESTS = "+%d more"
+L.MORE_QUESTS_HINT = "+%d more (right-click to show more)"
+L.PANEL_MAX_QUESTS_MENU = "Quests shown: %d"
 L.PANEL_SHOWS = "Show quests"
 L.MODE_AREAS = "In quest areas I'm in"
 L.MODE_ZONE = "In this zone"
@@ -83,6 +85,9 @@ L.OPTION_PANEL_TOOLTIP = "While you're in a party, shows everyone's progress on 
 L.OPTION_PANEL_MODE = "Quests to show"
 L.OPTION_PANEL_MODE_TOOLTIP = "In quest areas: the quests whose area (the shape on the map) you're standing in. "
 	.. "In this zone: the quests the map shows here. All: every quest someone in your party has too."
+L.OPTION_PANEL_MAX_QUESTS = "Quests shown at most"
+L.OPTION_PANEL_MAX_QUESTS_TOOLTIP = "How many quests the panel lists at once. When there are more, it says "
+	.. '"+N more" below them. Also in the panel\'s right-click menu.'
 L.OPTION_PANEL_SCALE = "Panel size"
 L.OPTION_PANEL_SCALE_TOOLTIP = "Scales the party progress panel."
 L.OPTION_PANEL_OPACITY = "Panel background"

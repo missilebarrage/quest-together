@@ -68,6 +68,8 @@ The first section decides which fallbacks matter, so run it first. Record result
       the game's numbers, `?` or "No info".
 - [ ] Leaving the area: the quest stays for about 5 seconds, then the panel hides.
 - [ ] Finishing a quest in its area keeps it shown until the other character finishes too.
+- [ ] More quests than fit: the panel ends with "+N more (right-click to show more)"; the menu's
+      "Quests shown" submenu (and the options slider) changes how many it lists, up to 20.
 - [ ] Right-click menu: modes, switches, share, options, hide. Shift-drag moves it and the
       position survives `/reload`. Size and background options work. `/qt preview` while solo.
 - [ ] The check icon shows (otherwise `/qt debug` lists it under missing icons); long names

@@ -16,6 +16,7 @@ Database.DEFAULTS = {
 	announceLevels = true,
 	panelEnabled = true,
 	panelMode = "areas", -- "areas" | "zone" | "all"
+	panelMaxQuests = 4, -- quests the panel lists before "+N more"
 	panelScale = 1,
 	panelOpacity = 90, -- background and border, in percent
 }
@@ -23,6 +24,11 @@ Database.DEFAULTS = {
 -- Settings that only take one of a few values.
 local CHOICES = {
 	panelMode = { areas = true, zone = true, all = true },
+}
+
+--- Whole-number settings and their allowed range.
+Database.RANGES = {
+	panelMaxQuests = { 1, 20 },
 }
 
 -- Numbered migrations: MIGRATIONS[n] upgrades data from schema n - 1 to n.
@@ -44,10 +50,15 @@ local account ---@type table
 local character ---@type table?
 local readOnly = false
 
+local function OutOfRange(key, value)
+	local range = Database.RANGES[key]
+	return range ~= nil and (value < range[1] or value > range[2] or value ~= math.floor(value))
+end
+
 local function FillDefaults(settings)
 	for key, default in pairs(Database.DEFAULTS) do
 		local value = settings[key]
-		if type(value) ~= type(default) or (CHOICES[key] and not CHOICES[key][value]) then
+		if type(value) ~= type(default) or (CHOICES[key] and not CHOICES[key][value]) or OutOfRange(key, value) then
 			settings[key] = default
 		end
 	end
